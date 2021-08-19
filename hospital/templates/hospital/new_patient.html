@@ -1,4 +1,4 @@
-{% extends 'shop/base.html' %}
+{% extends 'hospital/base.html' %}
 {% block content %}
 {% if request.user.is_authenticated %}
 <form action="{% url 'new_patient' %}" method="POST">

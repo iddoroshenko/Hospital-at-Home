@@ -43,7 +43,7 @@ def log_in(request):
                 form.add_error('username', 'Invalid credentials!')
     else:
         form = LoginForm()
-    return render(request, 'shop/login.html', {'form': form})
+    return render(request, 'hospital/login.html', {'form': form})
 
 
 def sign_up(request):
@@ -65,7 +65,7 @@ def sign_up(request):
                 return get_patient_list(request)
     else:
         form = RegistrationForm()
-    return render(request, 'shop/signup.html', {'form': form})
+    return render(request, 'hospital/signup.html', {'form': form})
 
 
 def log_out(request):
@@ -105,7 +105,7 @@ def get_patient_list(request):
                'sortForm': sortForm,
                'search_line': search_line
                }
-    return render(request, 'shop/index_hospital.html', context)
+    return render(request, 'hospital/index_hospital.html', context)
 
 
 def add_new_patient(request):
@@ -115,7 +115,7 @@ def add_new_patient(request):
         return render_new_patient(request)
 
 
-@login_required(login_url='/shop/login')
+@login_required(login_url='/hospital/login')
 def create_new_patient(request):
     first_name = request.POST['first_name']
     first_name_error = None
@@ -199,7 +199,7 @@ def render_new_patient(request, additional_context={}):
         **additional_context
     }
 
-    return render(request, 'shop/new_patient.html', context)
+    return render(request, 'hospital/new_patient.html', context)
 
 
 def patient(request, patient_id):
@@ -213,7 +213,7 @@ def render_patient(request, patient_id, additional_context={}):
                **additional_context
                }
 
-    return render(request, 'shop/patient.html', context)
+    return render(request, 'hospital/patient.html', context)
 
 
 def record(request, record_id):
@@ -234,7 +234,7 @@ def render_record(request, record_id, additional_context={}):
                **additional_context
                }
 
-    return render(request, 'shop/record.html', context)
+    return render(request, 'hospital/record.html', context)
 
 
 def temp_graph(temperature, start_time):
