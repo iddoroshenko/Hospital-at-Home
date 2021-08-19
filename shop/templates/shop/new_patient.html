@@ -1,0 +1,44 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<form action="{% url 'new_patient' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="first_name" maxlength="40" size="40" placeholder="Имя" value="{{ first_name }}"/>
+    <br/>
+    {% if first_name_error %}
+    <p style="color:#ff0000;"> {{ first_name_error }}</p>
+    {% endif %}
+    <input type="text" name="last_name" maxlength="40" size="40" placeholder="Фамилия" value="{{ last_name }}"/>
+    <br/>
+    {% if last_name_error %}
+    <p style="color:#ff0000;"> {{ last_name_error }}</p>
+    {% endif %}
+    <input type="text" name="middle_name" maxlength="40" size="40" placeholder="Отчество" value="{{ middle_name }}"/>
+    <br/>
+    {% if middle_name_error %}
+    <p style="color:#ff0000;"> {{ middle_name_error }}</p>
+    {% endif %}
+    <textarea name="address" maxlength="4096" rows="10" cols="80" placeholder="Адрес">{{ address }}</textarea>
+    <br/>
+    {% if address_error %}
+    <p style="color:#ff0000;"> {{ address_error }}</p>
+    {% endif %}
+    <form method="POST">
+    {% csrf_token %}
+    <table>{{ covidForm }}</table>
+    <form method="POST">
+    {% csrf_token %}
+    <table>{{ dateForm }}</table>
+    <input type="text" name="lung_damage" maxlength="40" size="40" placeholder="Процент поражения лёгочной ткани" value="{{ lung_damage }}"/>
+    <br/>
+    {% if lung_damage_error %}
+    <p style="color:#ff0000;"> {{ lung_damage_error }}</p>
+    {% endif %}
+    <input type="submit" value="Добавить пациента"/>
+    </form>
+    </form>
+</form>
+{% else %}
+<h3>Log in if you want to leave a review or buy a product</h3>
+{% endif %}
+{% endblock %}

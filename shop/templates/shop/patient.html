@@ -1,0 +1,18 @@
+{% extends 'shop/base.html' %}
+{% block title%}{{ blog.title }}{% endblock %}}
+{% block content %}
+<p>Имя: {{ patient.first_name }}</p>
+<p>Фамилия: {{ patient.last_name }}</p>
+<p>Отчество: {{ patient.middle_name }}</p>
+<p>Адрес: {{ patient.address }}</p>
+<p>Время принятия: {{ patient.created_at }}</p>
+<p>Степень тяжести: {% if patient.covid_grade == '1' %} ковид лёгкой степени {% elif patient.covid_grade == '2' %}
+    ковид средней степени {% else %} ковид тяжёлой степени {% endif %}</p>
+<p>Процент поражения лёгочной ткани: {{ patient.lung_damage }}</p>
+<ul>
+    {% for record in records %}
+        <li><a href="{% url 'record_by_id' record.id%}">{{ record.created_at }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

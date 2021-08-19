@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+{% block title%}{{ blog.title }}{% endblock %}}
+{% block content %}
+<p>Имя: {{ record.patient.first_name }}</p>
+<p>Фамилия: {{ record.patient.last_name }}</p>
+<p>Отчество: {{ record.patient.middle_name }}</p>
+<p>Адрес: {{ record.patient.address }}</p>
+<p>Время принятия: {{ record.patient.created_at }}</p>
+<p>Степень тяжести: {% if record.patient.covid_grade == '1' %} ковид лёгкой степени {% elif record.patient.covid_grade == '2' %}
+    ковид средней степени {% else %} ковид тяжёлой степени {% endif %}</p>
+<p>Процент поражения лёгочной ткани: {{ record.patient.lung_damage }}</p>
+<a href="{% url 'patient_by_id' record.patient.id %}">Вернутся к списку записей</a>
+<p>Температура тела: {{ graph_temp|safe }}</p>
+<p>Частота сердечных сокращений: {{ graph_heart_rate|safe }}</p>
+<p>Сатурация: {{ graph_saturation|safe }}</p>
+<p>Наличие одышки: {% if record.shortness_of_breath == True %} есть {% else %} нет {% endif %}</p>
+<p>Чувство стеснения в груди: {% if record.chest_tightness == True %} есть {% else %} нет {% endif %}</p>
+<p>Рвота: {% if record.vomiting == True %} есть {% else %} нет {% endif %}</p>
+<p>Головокружения: {% if record.dizziness == True %} есть {% else %} нет {% endif %}</p>
+<p>Головная боль: {% if record.headache == True %} есть {% else %} нет {% endif %}</p>
+<p>Помутнение сознания: {% if record.blurred_consciousness == True %} есть {% else %} нет {% endif %}</p>
+<p>Потливость: {% if record.sweating == True %} есть {% else %} нет {% endif %}</p>
+<p>Нарушение равновесия и координации: {% if record.violation_of_balance_and_coordination == True %} есть {% else %} нет {% endif %}</p>
+<p>Потребность в кислородной поддержке: {% if record.need_oxygen_support == True %} есть {% else %} нет {% endif %}</p>
+
+{% endblock %}
