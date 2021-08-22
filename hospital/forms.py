@@ -44,3 +44,13 @@ BIRTH_MOUTH_CHOICES = {1: 'Январь', 2: 'Февраль', 3: 'Март', 4:
 
 class DateForm(forms.Form):
     date = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES, months=BIRTH_MOUTH_CHOICES))
+
+
+class PatientConditionForm(forms.Form):
+    OPTIONS = (
+        ("shortness_of_breath", "Наличие одышки"),
+        ("chest_tightness", "Чувство стеснения в груди"),
+        ("vomiting", "Рвота"),
+    )
+    condition = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                          choices=OPTIONS)

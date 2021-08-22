@@ -5,15 +5,22 @@
     <title>{% block title %}Hospital at home{% endblock %}</title>
 </head>
 <body>
-<p><a href="{% url 'hospital_index' %}">Main</a></p>
 {% if request.user.is_authenticated %}
 <p>Welcome, {{ request.user.username }}! <a href="{% url 'logout' %}?next={{ request.path }}">Log out</a></p>
-<p><a href="{% url 'new_patient' %}">Добавить нового пациента</a></p>
-{% else %}
+    <p><a href="{% url 'p_patient_index' %}">Главная</a></p>
+    <p><a href="{% url 'p_patient_schedule' %}">Расписание</a></p>
+    <p><a href="{% url 'p_patient_condition' %}">Показания</a></p>
+    <p><a href="{% url 'p_patient_exercises' %}">Тренировки</a></p>
+    {% else %}
 <p>Welcome, stranger! Please <a href="{% url 'login' %}?next={{ request.path }}">log in</a>
 or <a href="{% url 'signup' %}">sign up</a></p>
 {% endif %}
 <hr/>
+{% if request.user.first_name == 'patient' %}
 {% block content %}{% endblock %}
+{% else %}
+    <h3>Log in as patient if you want to see content</h3>
+{% endif %}
 </body>
 </html>
+

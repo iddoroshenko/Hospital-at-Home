@@ -40,3 +40,14 @@ class PatientRecord(Model):
     violation_of_balance_and_coordination = BooleanField('Нарушение равновесия и координации', default=False)
     need_oxygen_support = BooleanField('Потребность в кислородной поддержке', default=False)
 
+
+class PatientSchedule(Model):
+    patient = ForeignKey(Patient, on_delete=CASCADE)
+
+    schedule = TextField('Расписание, заполняемое и редактируемое врачом', default='')
+
+
+class PatientExercises(Model):
+    patient = ForeignKey(Patient, on_delete=CASCADE)
+
+    exercise = TextField('Описание управжнения', default='')

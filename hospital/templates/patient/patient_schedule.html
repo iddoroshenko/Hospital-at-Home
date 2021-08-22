@@ -1,0 +1,10 @@
+{% extends 'patient/base_patient.html' %}
+{% block content %}
+<h2>
+    <ul>
+        {% for action in actions %}
+        <li><p>{{ action.schedule }}</p></li>
+        {% endfor %}
+    </ul>
+</h2>
+{% endblock %}

@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from .forms import LoginForm, RegistrationForm, MainPageSortFormHospital, CovidForm, DateForm
+from .forms import LoginForm, RegistrationForm, PatientConditionForm, MainPageSortFormHospital, CovidForm, DateForm
 from .models import Patient, PatientRecord
 
 
@@ -38,7 +38,12 @@ def log_in(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(request.GET['next'])
+                if request.user.first_name == 'doctor':
+                    redirect_url = request.GET.get('next') or reverse('hospital_index')
+                else:
+                    redirect_url = request.GET.get('next') or reverse('hospital_index')
+                return redirect(redirect_url)
+
             else:
                 form.add_error('username', 'Invalid credentials!')
     else:
@@ -70,7 +75,7 @@ def sign_up(request):
 
 def log_out(request):
     logout(request)
-    redirect_url = request.GET.get('next') or reverse('shop_index')
+    redirect_url = request.GET.get('next') or reverse('hospital_index')
     return redirect(redirect_url)
 
 
@@ -174,8 +179,10 @@ def create_new_patient(request):
         }
         return render_new_patient(request, error_context)
     else:
-        Patient(first_name=first_name, last_name=last_name, middle_name=middle_name,
-                address=address, lung_damage=lung_damage, covid_grade=covid, birth=birth_date).save()
+        patient = Patient(first_name=first_name, last_name=last_name, middle_name=middle_name,
+                          address=address, lung_damage=lung_damage, covid_grade=covid, birth=birth_date,
+                          doctor=request.user.id)
+        patient.save()
         password = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
         username = translit(first_name) + '.' + translit(last_name)
         count = 0
@@ -186,7 +193,7 @@ def create_new_patient(request):
             tmp_username += str(count)
         username = tmp_username
         print(username, password)
-        user = User.objects.create_user(username, password=password)
+        user = User.objects.create_user(username, password=password, first_name='patient', last_name=str(patient.id))
         return HttpResponseRedirect(reverse('hospital_index'))
 
 
@@ -314,3 +321,125 @@ def create_time_interval_graph(time, num):
             hour = '0' + hour
         result.append(hour + ':' + minute)
     return result
+
+
+def get_patient_mainpage(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render_patient_mainpage(request)
+
+
+def render_patient_mainpage(request):
+    return render(request, 'patient/index_patient.html')
+
+
+def get_patient_schedule(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render_patient_schedule(request)
+
+
+def render_patient_schedule(request):
+    patient_id = int(request.user.last_name)
+    patient = get_object_or_404(Patient, id=patient_id)
+    context = {'patient': patient,
+               'actions': patient.patientschedule_set.order_by('-id')
+               }
+    return render(request, 'patient/patient_schedule.html', context)
+
+
+def get_patient_condition(request):
+    if request.method == 'POST':
+        return create_patient_condition(request)
+    else:
+        return render_patient_condition(request)
+
+
+def create_patient_condition(request):
+    patient_id = int(request.user.last_name)
+    patient = get_object_or_404(Patient, id=patient_id)
+
+    temperature_list = request.POST['temperature_list']
+    temperature_list_error = None
+    if not temperature_list or temperature_list.isspace():
+        temperature_list_error = 'Please provide temperature'
+
+    heart_rate = request.POST['heart_rate']
+    heart_rate_error = None
+    if not heart_rate or heart_rate.isspace():
+        heart_rate_error = 'Please provide heart_rate'
+
+    last_saturation = request.POST['last_saturation']
+    last_saturation_error = None
+    if not last_saturation or last_saturation.isspace():
+        last_saturation_error = 'Please provide last_saturation'
+
+    form_condition = PatientConditionForm(request.POST)
+    condition = None
+    condition_error = None
+    if form_condition.is_valid():
+        condition = form_condition.cleaned_data.get('condition')
+    else:
+        condition_error = 'Please provide full data'
+
+    shortness_of_breath = 'shortness_of_breath' in condition
+    chest_tightness = 'chest_tightness' in condition
+    vomiting = 'vomiting' in condition
+    dizziness = 'dizziness' in condition
+    headache = 'headache' in condition
+    blurred_consciousness = 'blurred_consciousness' in condition
+    sweating = 'sweating' in condition
+    violation_of_balance_and_coordination = 'violation_of_balance_and_coordination' in condition
+    need_oxygen_support = 'need_oxygen_support' in condition
+
+    if temperature_list_error or heart_rate_error or last_saturation_error or condition_error:
+        error_context = {
+            'temperature_list_error': temperature_list_error,
+            'temperature_list': temperature_list,
+            'heart_rate_error': heart_rate_error,
+            'heart_rate': heart_rate,
+            'last_saturation_error': last_saturation_error,
+            'last_saturation': last_saturation,
+            'condition_error': condition_error
+
+        }
+        return render_patient_condition(request, error_context)
+    else:
+        record = PatientRecord(patient=patient, temperature_list=temperature_list, heart_rate=heart_rate,
+                               last_saturation=last_saturation, shortness_of_breath=shortness_of_breath,
+                               chest_tightness=chest_tightness, vomiting=vomiting, dizziness=dizziness,
+                               headache=headache, blurred_consciousness=blurred_consciousness,
+                               sweating=sweating, violation_of_balance_and_coordination=violation_of_balance_and_coordination,
+                               need_oxygen_support=need_oxygen_support)
+        record.save()
+        return HttpResponseRedirect(reverse('p_patient_index'))
+
+
+def render_patient_condition(request, additional_context={}):
+    patient_id = int(request.user.last_name)
+    patient = get_object_or_404(Patient, id=patient_id)
+    patientConditionForm = PatientConditionForm()
+    context = {'patient': patient,
+               'patientConditionForm':patientConditionForm,
+               'actions': patient.patientschedule_set.order_by('-id'),
+               **additional_context
+               }
+    return render(request, 'patient/patient_condition.html', context)
+
+
+def get_patient_exercises(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render_patient_exercises(request)
+
+
+def render_patient_exercises(request):
+    patient_id = int(request.user.last_name)
+    patient = get_object_or_404(Patient, id=patient_id)
+    context = {'patient': patient,
+               'exercises': patient.patientexercises_set.order_by('-id')
+               }
+    return render(request, 'patient/patient_exercises.html', context)

@@ -1,0 +1,10 @@
+{% extends 'patient/base_patient.html' %}
+{% block content %}
+<h2>
+    <ul>
+        {% for exercise in exercises %}
+        <li><p>{{ exercise.exercise }}</p></li>
+        {% endfor %}
+    </ul>
+</h2>
+{% endblock %}
