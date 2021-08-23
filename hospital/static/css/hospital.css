@@ -1,0 +1,199 @@
+/* -- LOG IN & SIGN  UP-- */
+.un {
+    width: 100%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    /*margin-left: 46px;*/
+    margin-left: auto;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
+}
+div.log {
+    position:relative;
+    background-color: #f2e6d9;
+    width: 40%;
+    text-align: center;
+    padding: 40px;
+    /*height: 450px;*/
+    margin: 7em auto;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+div.sig {
+    position:relative;
+    background-color: #f2e6d9;
+    width: 40%;
+    text-align: center;
+    padding: 40px;
+    margin: 7em auto;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+p.sign {
+    text-align: center;
+    color: #60401f;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.submit {
+    cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    background: linear-gradient(to right, #cd9965, #e0bf9f);
+    border: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+/*    position: absolute;
+      top: 70%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);*/
+
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    }
+
+p.ask {
+    font-size:16px;
+    margin-top:20px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/*-- base --*/
+
+div.mainTop {
+    background-color: #f2e6d9;
+    width: 90%;
+    height:110px;
+    margin-top: 5%;
+    margin-left: 5%;
+    border-radius: 1.5em;
+
+    padding: 10px 20px;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.create {
+    /*margin-top:80px;
+    float:left;
+    margin-left: 25%;*/
+}
+
+.button{
+    cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    background: linear-gradient(to right, #cd9965, #e0bf9f);
+    border: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+}
+
+div.base{
+    float:right;
+    margin-left: 5%;
+    margin-top:20px;
+    box-sizing:border-box;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 25px;
+    /*line-height:120px;*/
+}
+
+.logout {
+    margin-top: -44px;
+    float:right;
+}
+
+/* -- search --*/
+
+.search-v{
+    margin-top: 3%;
+    padding: 10px 20px;
+}
+
+.search-line {
+    font-size:20px;
+    height:45px;
+    border-radius: 1em;
+    padding-left:15px;
+    border: 2px solid #604020;
+    margin-right:20px;
+}
+
+li {
+list-style-type: none;
+}
+
+li.name {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 25px;
+    list-style-type: decimal;
+    margin-bottom: 15px;
+}
+
+/* -- info --*/
+
+div.info {
+    background-color: #f2e6d9;
+    margin-top: 2%;
+    border-radius: 1.5em;
+
+    padding: 10px 20px;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+}
+
+/* -- new patient --*/
+
+.form-line {
+    font-size:18px;
+    height:24px;
+    border-radius: 1em;
+    padding-left:15px;
+    border: 1px solid #604020;
+    margin-right:20px;
+    margin-top:1%;
+}
+.form-line-a {
+    font-size:18px;
+    height:100px;
+    border-radius: 1em;
+    padding-left:15px;
+    border: 1px solid #604020;
+    margin-right:20px;
+    margin-top:1%;
+}
+
+.leftstr, .rightstr {
+margin-top: 30px;
+    float: left; /* Обтекание справа */ /* Ширина текстового блока */
+   }
+.rightstr {
+text-align: right; /* Выравнивание по правому краю */
+}

@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>{% block title %}Hospital at home{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/hospital.css' %}">
 </head>
 <body>
-<p><a href="{% url 'hospital_index' %}">Main</a></p>
-{% if request.user.is_authenticated %}
-<p>Welcome, {{ request.user.username }}! <a href="{% url 'logout' %}?next={{ request.path }}">Log out</a></p>
-{% if request.user.first_name == 'doctor' %}
-<p><a href="{% url 'new_patient' %}">Добавить нового пациента</a></p>
-{% endif %}
-{% else %}
-<p>Welcome, stranger! Please <a href="{% url 'login' %}?next={{ request.path }}">log in</a>
-or <a href="{% url 'signup' %}">sign up</a></p>
-{% endif %}
-<hr/>
-{% if request.user.first_name == 'doctor' %}
-{% block content %}{% endblock %}
-{% else %}
+<div class="mainTop">
+
+    <p style="font-family: 'Ubuntu', sans-serif;
+    font-size: 20px; margin-left: 20px;"><a href="{% url 'hospital_index' %}">Главная</a></p>
+
+    {% if request.user.is_authenticated %}
+    <div class="logout"><button class="button"><a href="{% url 'logout' %}?next={{ request.path }}">Log out</a></button></div>
+    <div class="base">Welcome, {{ request.user.username }}! </div>
+    {% if request.user.first_name == 'doctor' %}
+    <div class="create"><button class="button"><a href="{% url 'new_patient' %}">Добавить нового пациента</a></button></div>
+    {% endif %}
+    {% else %}
+    <p>Welcome, stranger! Please <a href="{% url 'login' %}?next={{ request.path }}">log in</a>
+        or <a href="{% url 'signup' %}">sign up</a></p>
+    {% endif %}
+    <!--<hr/>-->
+    {% if request.user.first_name == 'doctor' %}
+    {% block content %}{% endblock %}
+    {% else %}
     <h3>Log in as doctor if you want to see content</h3>
-{% endif %}
+    {% endif %}
+</div>
 </body>
 </html>

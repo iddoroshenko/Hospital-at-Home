@@ -1,19 +1,22 @@
 {% extends 'hospital/base_doctor.html' %}
 {% block content %}
+
 <h2>
+    <div class="search-v">
     <form action="{% url 'hospital_index' %}" method="POST">
         {% csrf_token %}
-        <input type="text" name="search_line" maxlength="40" size="40" placeholder="search" value="{{ search_line }}"/>
+        <input type="text" name="search_line" maxlength="40" size="110" placeholder="search" class="form-line" value="{{ search_line }}"/>
         <br/>
         <form method="POST">
             {% csrf_token %}
             <table>{{ sortForm }}</table>
-            <input type="submit" value="Search"/>
+            <input type="submit" class="button" value="Search"/>
         </form>
     </form>
+    </div>
     <ul>
         {% for patient in patients %}
-        <li><a href="{% url 'patient_by_id' patient.id%}">{{ patient.last_name }}</a></li>
+        <li class="name"><a href="{% url 'patient_by_id' patient.id%}">{{ patient.last_name }}</a></li>
         {% endfor %}
     </ul>
 </h2>

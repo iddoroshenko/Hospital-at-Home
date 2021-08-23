@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>{% block title %}Hospital at home{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/hospital.css' %}">
 </head>
 <body>
 {% if request.user.is_authenticated %}
