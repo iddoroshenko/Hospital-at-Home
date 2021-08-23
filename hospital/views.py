@@ -39,9 +39,9 @@ def log_in(request):
             if user is not None:
                 login(request, user)
                 if request.user.first_name == 'doctor':
-                    redirect_url = request.GET.get('next') or reverse('hospital_index')
+                    redirect_url = reverse('hospital_index')
                 else:
-                    redirect_url = request.GET.get('next') or reverse('hospital_index')
+                    redirect_url = reverse('p_patient_index')
                 return redirect(redirect_url)
 
             else:
@@ -51,31 +51,9 @@ def log_in(request):
     return render(request, 'hospital/login.html', {'form': form})
 
 
-def sign_up(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            logout(request)
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            password_again = form.cleaned_data['password_again']
-            if User.objects.filter(username=username).exists():
-                form.add_error('username', 'User already exists!')
-            elif password != password_again:
-                form.add_error('password_again', 'Password mismatch!')
-            else:
-                user = User.objects.create_user(username, email, password)
-                login(request, user)
-                return get_patient_list(request)
-    else:
-        form = RegistrationForm()
-    return render(request, 'hospital/signup.html', {'form': form})
-
-
 def log_out(request):
     logout(request)
-    redirect_url = request.GET.get('next') or reverse('hospital_index')
+    redirect_url = reverse('login')
     return redirect(redirect_url)
 
 
@@ -108,7 +86,7 @@ def get_patient_list(request):
     context = {'patients': patients,
                'username': name,
                'sortForm': sortForm,
-               'search_line': search_line
+               'search_linesearch_line': search_line
                }
     return render(request, 'hospital/index_hospital.html', context)
 
@@ -209,6 +187,7 @@ def render_new_patient(request, additional_context={}):
     return render(request, 'hospital/new_patient.html', context)
 
 
+@login_required(login_url='/hospital/login')
 def patient(request, patient_id):
     return render_patient(request, patient_id)
 
@@ -223,6 +202,7 @@ def render_patient(request, patient_id, additional_context={}):
     return render(request, 'hospital/patient.html', context)
 
 
+@login_required(login_url='/hospital/login')
 def record(request, record_id):
     if request.method == 'POST':
         # return create_review(request, product_id)
@@ -323,6 +303,7 @@ def create_time_interval_graph(time, num):
     return result
 
 
+@login_required(login_url='/hospital/login')
 def get_patient_mainpage(request):
     if request.method == 'POST':
         pass
@@ -334,6 +315,7 @@ def render_patient_mainpage(request):
     return render(request, 'patient/index_patient.html')
 
 
+@login_required(login_url='/hospital/login')
 def get_patient_schedule(request):
     if request.method == 'POST':
         pass
@@ -350,6 +332,7 @@ def render_patient_schedule(request):
     return render(request, 'patient/patient_schedule.html', context)
 
 
+@login_required(login_url='/hospital/login')
 def get_patient_condition(request):
     if request.method == 'POST':
         return create_patient_condition(request)
@@ -422,13 +405,14 @@ def render_patient_condition(request, additional_context={}):
     patient = get_object_or_404(Patient, id=patient_id)
     patientConditionForm = PatientConditionForm()
     context = {'patient': patient,
-               'patientConditionForm':patientConditionForm,
+               'patientConditionForm': patientConditionForm,
                'actions': patient.patientschedule_set.order_by('-id'),
                **additional_context
                }
     return render(request, 'patient/patient_condition.html', context)
 
 
+@login_required(login_url='/hospital/login')
 def get_patient_exercises(request):
     if request.method == 'POST':
         pass

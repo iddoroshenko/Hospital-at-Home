@@ -13,20 +13,19 @@
     font-size: 20px; margin-left: 20px;"><a href="{% url 'hospital_index' %}">Главная</a></p>
 
     {% if request.user.is_authenticated %}
-    <div class="logout"><button class="button"><a href="{% url 'logout' %}?next={{ request.path }}">Log out</a></button></div>
-    <div class="base">Welcome, {{ request.user.username }}! </div>
+    <div class="logout"><button class="button"><a href="{% url 'logout' %}?next={{ request.path }}">Выйти</a></button></div>
+    <div class="base">Добро пожаловать, {{ request.user.username }}! </div>
     {% if request.user.first_name == 'doctor' %}
     <div class="create"><button class="button"><a href="{% url 'new_patient' %}">Добавить нового пациента</a></button></div>
     {% endif %}
     {% else %}
-    <p>Welcome, stranger! Please <a href="{% url 'login' %}?next={{ request.path }}">log in</a>
-        or <a href="{% url 'signup' %}">sign up</a></p>
+    <p>Добро пожаловать! Пожалуйста <a href="{% url 'login' %}?next={{ request.path }}">авторизируйтесь</a></p>
     {% endif %}
     <!--<hr/>-->
     {% if request.user.first_name == 'doctor' %}
     {% block content %}{% endblock %}
     {% else %}
-    <h3>Log in as doctor if you want to see content</h3>
+    <h3>Войдите как доктор если хотите увидеть контент</h3>
     {% endif %}
 </div>
 </body>

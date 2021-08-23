@@ -2,8 +2,8 @@ from django import forms
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=64)
-    password = forms.CharField(label='Password', max_length=128, widget=forms.PasswordInput)
+    username = forms.CharField(label='Логин', max_length=64)
+    password = forms.CharField(label='Пароль', max_length=128, widget=forms.PasswordInput)
 
 
 class RegistrationForm(forms.Form):
@@ -18,7 +18,7 @@ class NewPatientForm(forms.Form):
     last_name = forms.CharField(label='Фамилия', max_length=40)
     middle_name = forms.CharField(label='Отчество', max_length=40)
     address = forms.CharField(label='Адрес', max_length=200)
-    covid = forms.ChoiceField(widget=forms.RadioSelect, choices=[
+    covid = forms.ChoiceField(label='степень ковида', widget=forms.RadioSelect, choices=[
         ('1', 'ковид лёгкой степени'),
         ('2', 'ковид средней степени'),
         ('3', 'ковид тяжёлой степени')])
@@ -26,14 +26,15 @@ class NewPatientForm(forms.Form):
 
 
 class CovidForm(forms.Form):
-    covid = forms.ChoiceField(widget=forms.RadioSelect, choices=[
+    covid = forms.ChoiceField(label='степень ковида', widget=forms.RadioSelect, choices=[
         ('1', 'ковид лёгкой степени'),
         ('2', 'ковид средней степени'),
         ('3', 'ковид тяжёлой степени')])
 
 
 class MainPageSortFormHospital(forms.Form):
-    sort_by = forms.ChoiceField(widget=forms.RadioSelect, choices=[('1', 'ФИО'), ('2', 'Время поступления')],
+    sort_by = forms.ChoiceField(label='Сортировать по', widget=forms.RadioSelect,
+                                choices=[('1', 'ФИО'), ('2', 'Времени поступления')],
                                 initial='1')
 
 
@@ -43,7 +44,7 @@ BIRTH_MOUTH_CHOICES = {1: 'Январь', 2: 'Февраль', 3: 'Март', 4:
 
 
 class DateForm(forms.Form):
-    date = forms.DateField(widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES, months=BIRTH_MOUTH_CHOICES))
+    date = forms.DateField(label='Дата рождения', widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES, months=BIRTH_MOUTH_CHOICES))
 
 
 class PatientConditionForm(forms.Form):
@@ -52,5 +53,5 @@ class PatientConditionForm(forms.Form):
         ("chest_tightness", "Чувство стеснения в груди"),
         ("vomiting", "Рвота"),
     )
-    condition = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+    condition = forms.MultipleChoiceField(label='Ваше состояние', widget=forms.CheckboxSelectMultiple,
                                           choices=OPTIONS)

@@ -5,12 +5,12 @@
     <div class="search-v">
     <form action="{% url 'hospital_index' %}" method="POST">
         {% csrf_token %}
-        <input type="text" name="search_line" maxlength="40" size="110" placeholder="search" class="form-line" value="{{ search_line }}"/>
+        <input type="text" name="search_line" maxlength="40" size="110" placeholder="Поиск" class="form-line" value="{{ search_line }}"/>
         <br/>
         <form method="POST">
             {% csrf_token %}
             <table>{{ sortForm }}</table>
-            <input type="submit" class="button" value="Search"/>
+            <input type="submit" class="button" value="Поиск"/>
         </form>
     </form>
     </div>
