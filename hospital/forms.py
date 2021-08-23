@@ -52,6 +52,12 @@ class PatientConditionForm(forms.Form):
         ("shortness_of_breath", "Наличие одышки"),
         ("chest_tightness", "Чувство стеснения в груди"),
         ("vomiting", "Рвота"),
+        ("dizziness", "Головокружения"),
+        ("headache", "Головная боль"),
+        ("blurred_consciousness", "Помутнение сознания"),
+        ("sweating", "Потливость"),
+        ("violation_of_balance_and_coordination", "Нарушение равновесия и координации"),
+        ("need_oxygen_support", "Потребность в кислородной поддержке"),
     )
     condition = forms.MultipleChoiceField(label='Ваше состояние', widget=forms.CheckboxSelectMultiple,
                                           choices=OPTIONS)
