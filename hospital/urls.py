@@ -17,6 +17,8 @@ urlpatterns = [
     path('d/change_exercise/<int:exercise_id>', views.change_exercise, name='change_exercise'),
     path('d/remove_exercise/<int:exercise_id>', views.remove_exercise, name='remove_exercise'),
 
+    path('d/remove_patient/<int:patient_id>', views.remove_patient, name='remove_patient'),
+
     path('p/mainpage', views.get_patient_mainpage, name='p_patient_index'),
     path('p/schedule', views.get_patient_schedule, name='p_patient_schedule'),
     path('p/condition', views.get_patient_condition, name='p_patient_condition'),

@@ -157,10 +157,6 @@ def create_new_patient(request):
         }
         return render_new_patient(request, error_context)
     else:
-        patient = Patient(first_name=first_name, last_name=last_name, middle_name=middle_name,
-                          address=address, lung_damage=lung_damage, covid_grade=covid, birth=birth_date,
-                          doctor=request.user.id)
-        patient.save()
         password = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
         username = translit(first_name) + '.' + translit(last_name)
         count = 0
@@ -171,7 +167,12 @@ def create_new_patient(request):
             tmp_username += str(count)
         username = tmp_username
         print(username, password)
-        user = User.objects.create_user(username, password=password, first_name='patient', last_name=str(patient.id))
+        user = User.objects.create_user(username, password=password, first_name='patient'   )
+        patient = Patient(first_name=first_name, last_name=last_name, middle_name=middle_name,
+                          address=address, lung_damage=lung_damage, covid_grade=covid, birth=birth_date,
+                          doctor=request.user, patient=user)
+        patient.save()
+        user.last_name = str(patient.id)
         return HttpResponseRedirect(reverse('hospital_index'))
 
 
@@ -402,7 +403,8 @@ def create_patient_condition(request):
                                last_saturation=last_saturation, shortness_of_breath=shortness_of_breath,
                                chest_tightness=chest_tightness, vomiting=vomiting, dizziness=dizziness,
                                headache=headache, blurred_consciousness=blurred_consciousness,
-                               sweating=sweating, violation_of_balance_and_coordination=violation_of_balance_and_coordination,
+                               sweating=sweating,
+                               violation_of_balance_and_coordination=violation_of_balance_and_coordination,
                                need_oxygen_support=need_oxygen_support)
         record.save()
         return HttpResponseRedirect(reverse('p_patient_index'))
@@ -533,3 +535,12 @@ def add_new_exercise(request, patient_id):
     else:
         PatientExercises(patient=patient, exercise=exercise_text).save()
         return HttpResponseRedirect(reverse('patient_by_id', kwargs={'patient_id': patient.id}))
+
+
+def remove_patient(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    u = User.objects.get(username=patient.patient.username)
+
+    patient.delete()
+    u.delete()
+    return HttpResponseRedirect(reverse('hospital_index'))

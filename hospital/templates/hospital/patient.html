@@ -2,6 +2,7 @@
 {% block title%}{{ blog.title }}{% endblock %}}
 {% block content %}
 <div class="info">
+    <p><a href="{% url 'remove_patient' patient.id %}">Выписать пациента</a></p>
     <p><b>Имя:</b> {{ patient.first_name }}</p>
     <p><b>Фамилия:</b> {{ patient.last_name }}</p>
     <p><b>Отчество:</b> {{ patient.middle_name }}</p>
