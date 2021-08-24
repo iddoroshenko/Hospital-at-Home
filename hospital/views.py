@@ -167,12 +167,13 @@ def create_new_patient(request):
             tmp_username += str(count)
         username = tmp_username
         print(username, password)
-        user = User.objects.create_user(username, password=password, first_name='patient'   )
+        user = User.objects.create_user(username, password=password, first_name='patient')
         patient = Patient(first_name=first_name, last_name=last_name, middle_name=middle_name,
                           address=address, lung_damage=lung_damage, covid_grade=covid, birth=birth_date,
                           doctor=request.user, patient=user)
         patient.save()
         user.last_name = str(patient.id)
+        user.save()
         return HttpResponseRedirect(reverse('hospital_index'))
 
 
