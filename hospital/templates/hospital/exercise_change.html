@@ -1,0 +1,13 @@
+{% extends 'hospital/base_doctor.html' %}
+{% block content %}
+
+<form action="{% url 'change_exercise' exercise.id %}" method="POST">
+    {% csrf_token %}
+    <textarea name="exercise" maxlength="4096" rows="10" cols="80" placeholder="Расписание">{{ exercise.exercise }}</textarea>
+    <br/>
+    {% if exercise_text_error %}
+    <p style="color:#ff0000;"> {{ exercise_text_error }}</p>
+    {% endif %}
+    <input type="submit" value="send review"/>
+</form>
+{% endblock %}

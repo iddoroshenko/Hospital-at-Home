@@ -10,11 +10,53 @@
     <p><b>Степень тяжести:</b> {% if patient.covid_grade == '1' %} ковид лёгкой степени {% elif patient.covid_grade == '2' %}
     ковид средней степени {% else %} ковид тяжёлой степени {% endif %}</p>
     <p><b>Процент поражения лёгочной ткани:</b> {{ patient.lung_damage }}</p>
+    <p><b>Расписание:</b></p>
+    <ul>
+        {% for s in schedule %}
+        <li>{{ s.schedule }} <a href="{% url 'change_schedule' s.id %}">Редактировать</a>
+        <a href="{% url 'remove_schedule' s.id %}">Удалить</a></li>
+        {% endfor %}
+    </ul>
+
+    <form action="{% url 'patient_by_id' patient.id %}" method="POST">
+        {% csrf_token %}
+
+        <textarea name="schedule_text" maxlength="256" rows="3" cols="80" placeholder="Новая запись">{{ schedule_text }}</textarea>
+        <br/>
+        {% if schedule_text_error %}
+        <p style="color:#ff0000;"> {{ schedule_text_error }}</p>
+        {% endif %}
+
+
+        <input type="submit" value="send review"/>
+    </form>
+
+    <p><b>Упражнения:</b></p>
+    <ul>
+        {% for exercise in exercises %}
+        <li>{{ exercise.exercise }} <a href="{% url 'change_exercise' exercise.id %}">Редактировать</a>
+        <a href="{% url 'remove_exercise' exercise.id %}">Удалить</a></li>
+        {% endfor %}
+    </ul>
+
+    <form action="{% url 'patient_by_id' patient.id %}" method="POST">
+        {% csrf_token %}
+
+        <textarea name="exercise_text" maxlength="256" rows="3" cols="80" placeholder="Новая запись">{{ exercise_text }}</textarea>
+        <br/>
+        {% if exercise_text_error %}
+        <p style="color:#ff0000;"> {{ exercise_text_error }}</p>
+        {% endif %}
+
+
+        <input type="submit" value="send review"/>
+    </form>
+
     <h2><i>Показатели:</i></h2>
-<ul>
+    <ul>
     {% for record in records %}
         <li><a href="{% url 'record_by_id' record.id%}">{{ record.created_at }}</a></li>
     {% endfor %}
-</ul>
+    </ul>
 </div>
 {% endblock %}

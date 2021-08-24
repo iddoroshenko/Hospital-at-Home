@@ -14,7 +14,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 
 from .forms import LoginForm, RegistrationForm, PatientConditionForm, MainPageSortFormHospital, CovidForm, DateForm
-from .models import Patient, PatientRecord
+from .models import Patient, PatientRecord, PatientSchedule, PatientExercises
 
 
 def translit(line):
@@ -189,13 +189,21 @@ def render_new_patient(request, additional_context={}):
 
 @login_required(login_url='/hospital/login')
 def patient(request, patient_id):
-    return render_patient(request, patient_id)
+    if request.method == 'POST':
+        if 'schedule_text' in request.POST:
+            return add_new_schedule(request, patient_id)
+        if 'exercise_text' in request.POST:
+            return add_new_exercise(request, patient_id)
+    else:
+        return render_patient(request, patient_id)
 
 
 def render_patient(request, patient_id, additional_context={}):
     patient = get_object_or_404(Patient, id=patient_id)
     context = {'patient': patient,
                'records': patient.patientrecord_set.order_by('-created_at'),
+               'schedule': patient.patientschedule_set.order_by('-id'),
+               'exercises': patient.patientexercises_set.order_by('id'),
                **additional_context
                }
 
@@ -427,3 +435,101 @@ def render_patient_exercises(request):
                'exercises': patient.patientexercises_set.order_by('-id')
                }
     return render(request, 'patient/patient_exercises.html', context)
+
+
+def change_schedule(request, schedule_id):
+    if request.method == 'POST':
+        schedule = get_object_or_404(PatientSchedule, id=schedule_id)
+        schedule_text = request.POST['schedule']
+        schedule_error = None
+        if not schedule_text or schedule_text.isspace():
+            schedule_error = 'Please provide schedule'
+
+        if schedule_error:
+            error_context = {
+                'schedule_error': schedule_error,
+            }
+            return render(request, 'hospital/schedule_change.html', error_context)
+        else:
+            schedule.schedule = schedule_text
+            schedule.save()
+            return HttpResponseRedirect(reverse('patient_by_id', kwargs={'patient_id': schedule.patient.id}))
+    if request.method == 'GET':
+        schedule = get_object_or_404(PatientSchedule, id=schedule_id)
+
+        context = {'schedule': schedule,
+                   }
+        return render(request, 'hospital/schedule_change.html', context)
+
+
+def remove_schedule(request, schedule_id):
+    schedule = get_object_or_404(PatientSchedule, id=schedule_id)
+    patient_id = schedule.patient.id
+    schedule.delete()
+    return HttpResponseRedirect(reverse('patient_by_id', kwargs={'patient_id': patient_id}))
+
+
+def add_new_schedule(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    schedule_text = request.POST['schedule_text']
+    schedule_text_error = None
+    if not schedule_text or schedule_text.isspace():
+        schedule_text_error = 'Please provide text'
+    if schedule_text_error:
+        error_context = {
+            'schedule_text_error': schedule_text_error,
+            'schedule_text': schedule_text,
+        }
+        return render_patient(request, patient.id, error_context)
+    else:
+        PatientSchedule(patient=patient, schedule=schedule_text).save()
+        return HttpResponseRedirect(reverse('patient_by_id', kwargs={'patient_id': patient.id}))
+
+
+def change_exercise(request, exercise_id):
+    if request.method == 'POST':
+        exercise = get_object_or_404(PatientExercises, id=exercise_id)
+        exercise_text = request.POST['exercise']
+        exercise_text_error = None
+        if not exercise_text or exercise_text.isspace():
+            exercise_text_error = 'Please provide exercise'
+
+        if exercise_text_error:
+            error_context = {
+                'exercise_text_error': exercise_text_error,
+            }
+            return render(request, 'hospital/exercise_change.html', error_context)
+        else:
+            exercise.exercise = exercise_text
+            exercise.save()
+            return HttpResponseRedirect(reverse('patient_by_id', kwargs={'patient_id': exercise.patient.id}))
+    if request.method == 'GET':
+        exercise = get_object_or_404(PatientExercises, id=exercise_id)
+
+        context = {'exercise': exercise,
+                   }
+        return render(request, 'hospital/exercise_change.html', context)
+
+
+def remove_exercise(request, exercise_id):
+    exercise = get_object_or_404(PatientExercises, id=exercise_id)
+    patient_id = exercise.patient.id
+    exercise.delete()
+    return HttpResponseRedirect(reverse('patient_by_id', kwargs={'patient_id': patient_id}))
+
+
+def add_new_exercise(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    exercise_text = request.POST['exercise_text']
+    exercise_text_error = None
+    if not exercise_text or exercise_text.isspace():
+        exercise_text_error = 'Please provide text'
+    if exercise_text_error:
+        error_context = {
+            'exercise_text_error': exercise_text_error,
+            'exercise_text': exercise_text,
+        }
+        return render_patient(request, patient.id, error_context)
+    else:
+        PatientExercises(patient=patient, exercise=exercise_text).save()
+        return HttpResponseRedirect(reverse('patient_by_id', kwargs={'patient_id': patient.id}))
