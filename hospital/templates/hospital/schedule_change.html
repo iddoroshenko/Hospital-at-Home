@@ -1,13 +1,14 @@
 {% extends 'hospital/base_doctor.html' %}
 {% block content %}
-
+<div class="info">
 <form action="{% url 'change_schedule' schedule.id %}" method="POST">
     {% csrf_token %}
-    <textarea name="schedule" maxlength="4096" rows="10" cols="80" placeholder="Расписание">{{ schedule.schedule }}</textarea>
+    <textarea name="schedule" maxlength="4096" class="form-line-a" rows="10" cols="80" placeholder="Расписание">{{ schedule.schedule }}</textarea>
     <br/>
     {% if schedule_text_error %}
     <p style="color:#ff0000;"> {{ schedule_text_error }}</p>
     {% endif %}
-    <input type="submit" value="send review"/>
+    <input type="submit" class="button" style="margin-top:1%;" value="Изменить"/>
 </form>
+</div>
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends 'patient/base_patient.html' %}
 {% block content %}
-<h2>
+<div class="info">
     <ul>
         {% for action in actions %}
-        <li><p>{{ action.schedule }}</p></li>
+        <li class="list"><p>{{ action.schedule }}</p></li>
         {% endfor %}
     </ul>
-</h2>
+</div>
 {% endblock %}

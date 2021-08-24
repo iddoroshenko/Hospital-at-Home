@@ -1,7 +1,7 @@
 {% extends 'hospital/base_doctor.html' %}
 {% block content %}
 
-<h2>
+<div class="info">
     <div class="search-v">
     <form action="{% url 'hospital_index' %}" method="POST">
         {% csrf_token %}
@@ -19,5 +19,5 @@
         <li class="name"><a href="{% url 'patient_by_id' patient.id%}">{{ patient.last_name }}</a></li>
         {% endfor %}
     </ul>
-</h2>
+</div>
 {% endblock %}

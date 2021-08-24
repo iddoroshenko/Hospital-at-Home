@@ -9,24 +9,28 @@
 <body>
 <div class="mainTop">
 
-    <p style="font-family: 'Ubuntu', sans-serif;
-    font-size: 20px; margin-left: 20px;"><a href="{% url 'hospital_index' %}">Главная</a></p>
+    <p style="font-size: 20px; margin-left: 20px;"><a href="{% url 'hospital_index' %}"><b>Главная</b></a></p>
 
     {% if request.user.is_authenticated %}
-    <div class="logout"><button class="button"><a href="{% url 'logout' %}?next={{ request.path }}">Выйти</a></button></div>
+    <div class="logout"><button class="button"><a class="a-button" href="{% url 'logout' %}?next={{ request.path }}">Выйти</a></button></div>
     <div class="base">Добро пожаловать, {{ request.user.username }}! </div>
     {% if request.user.first_name == 'doctor' %}
-    <div class="create"><button class="button"><a href="{% url 'new_patient' %}">Добавить нового пациента</a></button></div>
+    <div class="create"><button class="button"><a class="a-button" href="{% url 'new_patient' %}">Добавить нового пациента</a></button></div>
     {% endif %}
+</div>
     {% else %}
-    <p>Добро пожаловать! Пожалуйста <a href="{% url 'login' %}?next={{ request.path }}">авторизируйтесь</a></p>
+    <div class="info">
+    <p>Добро пожаловать! Пожалуйста <a class="a-button" href="{% url 'login' %}?next={{ request.path }}">авторизируйтесь</a></p>
+    </div>
     {% endif %}
     <!--<hr/>-->
     {% if request.user.first_name == 'doctor' %}
     {% block content %}{% endblock %}
     {% else %}
-    <h3>Войдите как доктор если хотите увидеть контент</h3>
+    <div class="info">
+    Войдите как доктор если хотите увидеть контент
+    </div>
     {% endif %}
-</div>
+
 </body>
 </html>

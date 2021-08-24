@@ -2,7 +2,8 @@
 {% block title%}{{ blog.title }}{% endblock %}}
 {% block content %}
 <div class="info">
-    <p><a href="{% url 'remove_patient' patient.id %}">Выписать пациента</a></p>
+    <p style="text-align: right;"><button class="button"><a class="a-button" href="{% url 'remove_patient' patient.id %}">Выписать пациента</a></button></p>
+    <div class="general-info">
     <p><b>Имя:</b> {{ patient.first_name }}</p>
     <p><b>Фамилия:</b> {{ patient.last_name }}</p>
     <p><b>Отчество:</b> {{ patient.middle_name }}</p>
@@ -11,52 +12,54 @@
     <p><b>Степень тяжести:</b> {% if patient.covid_grade == '1' %} ковид лёгкой степени {% elif patient.covid_grade == '2' %}
     ковид средней степени {% else %} ковид тяжёлой степени {% endif %}</p>
     <p><b>Процент поражения лёгочной ткани:</b> {{ patient.lung_damage }}</p>
-    <p><b>Расписание:</b></p>
+    </div>
+
+    <p style="margin-top: 40px;"><b>Расписание:</b></p>
     <ul>
         {% for s in schedule %}
-        <li>{{ s.schedule }} <a href="{% url 'change_schedule' s.id %}">Редактировать</a>
-        <a href="{% url 'remove_schedule' s.id %}">Удалить</a></li>
+        <li class="list">{{ s.schedule }} <a href="{% url 'change_schedule' s.id %}"><img class="edit" src="/static/css/img/edit.png" title="Редактировать" alt="edit"></a>
+        <a href="{% url 'remove_schedule' s.id %}"><img class="delete" src="/static/css/img/delete.png" title="Удалить" alt="delete"></a></li>
         {% endfor %}
     </ul>
 
     <form action="{% url 'patient_by_id' patient.id %}" method="POST">
         {% csrf_token %}
 
-        <textarea name="schedule_text" maxlength="256" rows="3" cols="80" placeholder="Новая запись">{{ schedule_text }}</textarea>
+        <textarea name="schedule_text" maxlength="256" rows="3" cols="80" class="form-line-a" placeholder="Новая запись">{{ schedule_text }}</textarea>
         <br/>
         {% if schedule_text_error %}
         <p style="color:#ff0000;"> {{ schedule_text_error }}</p>
         {% endif %}
 
 
-        <input type="submit" value="send review"/>
+        <input type="submit" class="button" style="margin-top:1%;" value="Добавить"/>
     </form>
-
+    <hr class="line">
     <p><b>Упражнения:</b></p>
     <ul>
         {% for exercise in exercises %}
-        <li>{{ exercise.exercise }} <a href="{% url 'change_exercise' exercise.id %}">Редактировать</a>
-        <a href="{% url 'remove_exercise' exercise.id %}">Удалить</a></li>
+        <li class="list">{{ exercise.exercise }} <a href="{% url 'change_exercise' exercise.id %}"><img class="edit" src="/static/css/img/edit.png" title="Редактировать" alt="edit"></a>
+        <a href="{% url 'remove_exercise' exercise.id %}"><img class="delete" src="/static/css/img/delete.png" title="Удалить" alt="delete"></a></li>
         {% endfor %}
     </ul>
 
     <form action="{% url 'patient_by_id' patient.id %}" method="POST">
         {% csrf_token %}
 
-        <textarea name="exercise_text" maxlength="256" rows="3" cols="80" placeholder="Новая запись">{{ exercise_text }}</textarea>
+        <textarea name="exercise_text" maxlength="256" rows="3" cols="80" class="form-line-a" placeholder="Новая запись">{{ exercise_text }}</textarea>
         <br/>
         {% if exercise_text_error %}
         <p style="color:#ff0000;"> {{ exercise_text_error }}</p>
         {% endif %}
 
 
-        <input type="submit" value="send review"/>
+        <input type="submit" class="button" style="margin-top:1%;" value="Добавить"/>
     </form>
-
-    <h2><i>Показатели:</i></h2>
+    <hr class="line">
+    <p><b>Показатели:</b></p>
     <ul>
     {% for record in records %}
-        <li><a href="{% url 'record_by_id' record.id%}">{{ record.created_at }}</a></li>
+        <li class="list"><a href="{% url 'record_by_id' record.id%}">{{ record.created_at }}</a></li>
     {% endfor %}
     </ul>
 </div>

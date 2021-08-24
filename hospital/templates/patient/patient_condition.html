@@ -1,19 +1,21 @@
 {% extends 'patient/base_patient.html' %}
 {% block content %}
 {% if request.user.is_authenticated %}
+<div class="info">
 <form action="{% url 'p_patient_condition' %}" method="POST">
     {% csrf_token %}
-    <input type="text" name="temperature_list" maxlength="40" size="40" placeholder="Температура" value="{{ temperature_list }}"/>
+    <input type="text" class="form-line" name="temperature_list" maxlength="40" size="40" placeholder="Температура" value="{{ temperature_list }}"/>
     <br/>
     {% if temperature_list_error %}
     <p style="color:#ff0000;"> {{ temperature_list_error }}</p>
     {% endif %}
-    <input type="text" name="heart_rate" maxlength="40" size="40" placeholder="Пульс" value="{{ heart_rate }}"/>
+    <input type="text" class="form-line" name="heart_rate" maxlength="40" size="40" placeholder="Пульс" value="{{ heart_rate }}"/>
     <br/>
     {% if heart_rate_error %}
     <p style="color:#ff0000;"> {{ heart_rate_error }}</p>
     {% endif %}
-    <input type="text" name="last_saturation" maxlength="40" size="40" placeholder="Сатурация" value="{{ last_saturation }}"/>
+    <input type="text" class="form-line" name="last_saturation" maxlength="40" size="40" placeholder="Сатурация" value="{{ last_saturation }}"/>
+    <br/>
     <br/>
     {% if last_saturation_error %}
     <p style="color:#ff0000;"> {{ last_saturation_error }}</p>
@@ -24,10 +26,12 @@
     {% if condition_error %}
     <p style="color:#ff0000;"> {{ condition_error }}</p>
     {% endif %}
-    <input type="submit" value="Отправить запись"/>
+    <input class="button" type="submit" value="Отправить запись"/>
     </form>
 </form>
 {% else %}
 <h3>Log in if you want to leave a review or buy a product</h3>
 {% endif %}
+</div>
+
 {% endblock %}

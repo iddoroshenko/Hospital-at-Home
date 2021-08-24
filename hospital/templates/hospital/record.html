@@ -2,27 +2,38 @@
 {% block title%}{{ blog.title }}{% endblock %}}
 {% block content %}
 <div class="info">
-<p><b>Имя:</b> {{ record.patient.first_name }}</p>
-<p><b>Фамилия:</b> {{ record.patient.last_name }}</p>
-<p><b>Отчество:</b> {{ record.patient.middle_name }}</p>
-<p><b>Адрес:</b> {{ record.patient.address }}</p>
-<p><b>Время принятия:</b> {{ record.patient.created_at }}</p>
-<p><b>Степень тяжести:</b> {% if record.patient.covid_grade == '1' %} ковид лёгкой степени {% elif record.patient.covid_grade == '2' %}
-    ковид средней степени {% else %} ковид тяжёлой степени {% endif %}</p>
-<p><b>Процент поражения лёгочной ткани:</b> {{ record.patient.lung_damage }}</p>
-    <button class="button"><a href="{% url 'patient_by_id' record.patient.id %}">Вернутся к списку записей</a></button>
-    <div><p class="leftstr" style="margin-top:250px; margin-right:30px;"><b>Температура тела:</b></p> <p class="rightstr"> {{ graph_temp|safe }}</p>     <div style="clear: left"></div></div>
+    <div class="general-info" style="margin-bottom: 30px;" >
+        <p><b>Имя:</b> {{ record.patient.first_name }}</p>
+        <p><b>Фамилия:</b> {{ record.patient.last_name }}</p>
+        <p><b>Отчество:</b> {{ record.patient.middle_name }}</p>
+        <p><b>Адрес:</b> {{ record.patient.address }}</p>
+        <p><b>Время принятия:</b> {{ record.patient.created_at }}</p>
+        <p><b>Степень тяжести:</b> {% if record.patient.covid_grade == '1' %} ковид лёгкой степени {% elif record.patient.covid_grade == '2' %}
+            ковид средней степени {% else %} ковид тяжёлой степени {% endif %}</p>
+        <p><b>Процент поражения лёгочной ткани:</b> {{ record.patient.lung_damage }}</p>
+    </div>
+    <button class="button"><a class="a-button" href="{% url 'patient_by_id' record.patient.id %}">Вернутся к списку записей</a></button>
+    <div><p class="leftstr" style="margin-top:250px; margin-right:30px;"><b>Температура тела:</b></p>
+        <p class="rightstr"> {{ graph_temp|safe }}</p>
+        <div style="clear: left"></div>
+    </div>
 
-<div><p class="leftstr" style="margin-top:250px; margin-right:30px;"><b>Частота сердечных сокращений:</b></p> <p class="rightstr"> {{ graph_heart_rate|safe }}</p> <div style="clear: left"></div></div>
-<div><p class="leftstr" style="margin-top:250px; margin-right:30px;"><b>Сатурация:</b></p> <p class="rightstr"> {{ graph_saturation|safe }}</p> <div style="clear: left"></div></div>
-<p><b>Наличие одышки:</b> {% if record.shortness_of_breath == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Чувство стеснения в груди:</b> {% if record.chest_tightness == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Рвота:</b> {% if record.vomiting == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Головокружения:</b> {% if record.dizziness == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Головная боль:</b> {% if record.headache == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Помутнение сознания:</b> {% if record.blurred_consciousness == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Потливость:</b> {% if record.sweating == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Нарушение равновесия и координации:</b> {% if record.violation_of_balance_and_coordination == True %} есть {% else %} нет {% endif %}</p>
-<p><b>Потребность в кислородной поддержке:</b> {% if record.need_oxygen_support == True %} есть {% else %} нет {% endif %}</p>
+    <div><p class="leftstr" style="margin-top:250px; margin-right:30px;"><b>Частота сердечных сокращений:</b></p>
+        <p class="rightstr"> {{ graph_heart_rate|safe }}</p>
+        <div style="clear: left"></div>
+    </div>
+    <div><p class="leftstr" style="margin-top:250px; margin-right:30px;"><b>Сатурация:</b></p>
+        <p class="rightstr"> {{ graph_saturation|safe }}</p>
+        <div style="clear: left"></div>
+    </div>
+    <p><b>Наличие одышки:</b> {% if record.shortness_of_breath == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Чувство стеснения в груди:</b> {% if record.chest_tightness == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Рвота:</b> {% if record.vomiting == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Головокружения:</b> {% if record.dizziness == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Головная боль:</b> {% if record.headache == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Помутнение сознания:</b> {% if record.blurred_consciousness == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Потливость:</b> {% if record.sweating == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Нарушение равновесия и координации:</b> {% if record.violation_of_balance_and_coordination == True %} есть {% else %} нет {% endif %}</p>
+    <p><b>Потребность в кислородной поддержке:</b> {% if record.need_oxygen_support == True %} есть {% else %} нет {% endif %}</p>
 </div>
 {% endblock %}

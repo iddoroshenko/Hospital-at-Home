@@ -1,7 +1,44 @@
+/* general */
+body {
+    background: rgb(242, 230, 217, 0.4);
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    color: #3b1d08;
+}
+
+a {
+    text-decoration: none;
+    color: #3b1d08;
+    size: 20px;
+}
+a:hover {
+color: #a8876f;
+}
+
+a.a-button {
+    color: white;
+
+}
+
+a.menu {
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+hr.line {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    background-color: #4f2c14;
+    color: #4f2c14;
+    height: 3px;
+}
+
 /* -- LOG IN & SIGN  UP-- */
 .un {
     width: 100%;
-    color: rgb(38, 50, 56);
+    /*color: rgb(38, 50, 56);*/
+    color: #3b1d08;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 1px;
@@ -17,7 +54,6 @@
     margin-left: auto;
     text-align: center;
     margin-bottom: 27px;
-    font-family: 'Ubuntu', sans-serif;
 }
 div.log {
     position:relative;
@@ -45,7 +81,6 @@ div.sig {
 p.sign {
     text-align: center;
     color: #60401f;
-    font-family: 'Ubuntu', sans-serif;
     font-weight: bold;
     font-size: 30px;
 }
@@ -61,13 +96,6 @@ p.sign {
     padding-bottom: 10px;
     padding-top: 10px;
 
-/*    position: absolute;
-      top: 70%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);*/
-
-    font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
     box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
     }
@@ -75,17 +103,18 @@ p.sign {
 p.ask {
     font-size:16px;
     margin-top:20px;
-    font-family: 'Ubuntu', sans-serif;
 }
 
-/*-- base --*/
+/*-- base for doc --*/
 
 div.mainTop {
     background-color: #f2e6d9;
     width: 90%;
     height:110px;
     margin-top: 5%;
-    margin-left: 5%;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 1.5em;
 
     padding: 10px 20px;
@@ -108,7 +137,6 @@ div.mainTop {
     padding-right: 40px;
     padding-bottom: 10px;
     padding-top: 10px;
-    font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
     box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
 }
@@ -118,7 +146,6 @@ div.base{
     margin-left: 5%;
     margin-top:20px;
     box-sizing:border-box;
-    font-family: 'Ubuntu', sans-serif;
     font-size: 25px;
     /*line-height:120px;*/
 }
@@ -131,7 +158,6 @@ div.base{
 /* -- search --*/
 
 .search-v{
-    margin-top: 3%;
     padding: 10px 20px;
 }
 
@@ -149,15 +175,35 @@ list-style-type: none;
 }
 
 li.name {
-    font-family: 'Ubuntu', sans-serif;
     font-size: 25px;
     list-style-type: decimal;
     margin-bottom: 15px;
 }
 
+li.list {
+    font-size: 20px;
+    list-style-type: decimal;
+    margin-bottom: 10px;
+}
+
+/* img */
+
+img.edit{
+height:20px;
+margin-left: 17px;
+margin-right: 2px;
+}
+
+img.delete{
+height:20px;
+}
+
 /* -- info --*/
 
 div.info {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #f2e6d9;
     margin-top: 2%;
     border-radius: 1.5em;
@@ -165,8 +211,16 @@ div.info {
     padding: 10px 20px;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
 
-    font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
+}
+
+div.general-info {
+    background-color: #e3cbba;
+    margin-top: 2%;
+        border-radius: 1.5em;
+
+        padding: 10px 20px;
+        box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
 }
 
 /* -- new patient --*/
@@ -190,10 +244,14 @@ div.info {
     margin-top:1%;
 }
 
+/* for graphs */
 .leftstr, .rightstr {
-margin-top: 30px;
+    margin-top: 30px;
     float: left; /* Обтекание справа */ /* Ширина текстового блока */
    }
+.leftstr{
+    width:30%;
+}
 .rightstr {
 text-align: right; /* Выравнивание по правому краю */
 }
